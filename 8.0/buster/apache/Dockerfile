@@ -8,6 +8,7 @@ FROM debian:buster-slim
 
 # prevent Debian's PHP packages from being installed
 # https://github.com/docker-library/php/pull/542
+RUN useradd -u 1001 -r -g 0 -s /sbin/nologin -c "Default Application User" default 
 RUN set -eux; \
 	{ \
 		echo 'Package: php*'; \
@@ -278,3 +279,4 @@ WORKDIR /var/www/html
 
 EXPOSE 80
 CMD ["apache2-foreground"]
+USER 1001
