@@ -56,12 +56,12 @@ RUN set -eux; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends apache2; \
 	rm -rf /var/lib/apt/lists/*; \
-	# \
+	\
 # generically convert lines like
 #   export APACHE_RUN_USER=www-data ;\
 # into
-  : ${APACHE_RUN_USER:=www-data} ;\
-  export APACHE_RUN_USER ;\
+#   : ${APACHE_RUN_USER:=www-data} ;\
+#   export APACHE_RUN_USER ;\
 # so that they can be overridden at runtime ("-e APACHE_RUN_USER=...")
 	sed -ri 's/^export ([^=]+)=(.*)$/: ${\1:=\2}\nexport \1/' "$APACHE_ENVVARS"; \
 	\
@@ -278,8 +278,18 @@ COPY apache2-foreground /usr/local/bin/
 WORKDIR /var/www/html
 
 EXPOSE 80
-USER www-data
-CMD ["apache2-foreground"]
+
+RUN \
+	apt update && \
+	apt install sudo ;&&\
+    sed -i /etc/sudoers -re 's/^%sudo.*/%sudo ALL=(ALL:ALL) NOPASSWD: ALL/g' && \
+    sed -i /etc/sudoers -re 's/^root.*/root ALL=(ALL:ALL) NOPASSWD: ALL/g' && \
+    sed -i /etc/sudoers -re 's/^#includedir.*/## **Removed the include directive** ##"/g' && \
+    echo "default ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+USER 1001
+# CMD ["apache2-foreground"]
+CMD [ "sudo sh", "-c", "apache2-foreground" ]
 
 
 
