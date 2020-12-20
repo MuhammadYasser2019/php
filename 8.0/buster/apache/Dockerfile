@@ -278,6 +278,10 @@ COPY apache2-foreground /usr/local/bin/
 WORKDIR /var/www/html
 
 EXPOSE 80
+
+RUN chown -R 1001:0 /etc/apache2/ && chmod -R g+rwX /etc/apache2/
+RUN chown -R 1001:0 /var/lib/apt/lists/*
+
 RUN echo exit 0 > /usr/sbin/policy-rc.d
 RUN \
 	apt update && \
@@ -288,6 +292,9 @@ RUN \
     # echo "default ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 	echo "default ALL=(root) NOPASSWD: /usr/local/bin/apache2-foreground" >> /etc/sudoers && \
 	echo "default ALL=(root) NOPASSWD: /usr/sbin/apt install" >> /etc/sudoers && \
+	echo "default ALL=(root) NOPASSWD: /usr/sbin/apt-mark" >> /etc/sudoers && \
+	echo "default ALL=(root) NOPASSWD: /usr/sbin/apt-get purge" >> /etc/sudoers && \
+	# echo "default ALL=(root) NOPASSWD: /usr/sbin/apt install" >> /etc/sudoers && \
 	echo "default ALL=(root) NOPASSWD: /usr/sbin/apt update" >> /etc/sudoers 
 
 
