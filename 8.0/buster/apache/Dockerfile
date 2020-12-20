@@ -291,7 +291,7 @@ RUN \
 
 USER 1001
 # CMD ["apache2-foreground"]
-CMD [ "sudo sh", "-c", "apache2-foreground" ]
+CMD [ "sudo" , "apache2-foreground" ]
 
 
 
