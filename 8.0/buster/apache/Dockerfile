@@ -278,18 +278,20 @@ COPY apache2-foreground /usr/local/bin/
 WORKDIR /var/www/html
 
 EXPOSE 80
-# RUN echo exit 0 > /usr/sbin/policy-rc.d
-# RUN \
-# 	apt update && \
-# 	apt install sudo &&\
-#     sed -i /etc/sudoers -re 's/^%sudo.*/%sudo ALL=(ALL:ALL) NOPASSWD: ALL/g' && \
-#     sed -i /etc/sudoers -re 's/^root.*/root ALL=(ALL:ALL) NOPASSWD: ALL/g' && \
-#     sed -i /etc/sudoers -re 's/^#includedir.*/## **Removed the include directive** ##"/g' && \
-#     echo "default ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+RUN echo exit 0 > /usr/sbin/policy-rc.d
+RUN \
+	apt update && \
+	apt install sudo &&\
+    # sed -i /etc/sudoers -re 's/^%sudo.*/%sudo ALL=(ALL:ALL) NOPASSWD: ALL/g' && \
+    # sed -i /etc/sudoers -re 's/^root.*/root ALL=(ALL:ALL) NOPASSWD: ALL/g' && \
+    # sed -i /etc/sudoers -re 's/^#includedir.*/## **Removed the include directive** ##"/g' && \
+    # echo "default ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+	echo "default ALL=(root) NOPASSWD: /usr/local/bin/apache2-foreground" >> /etc/sudoers
 
-# USER 1001
+
+USER 1001
 # CMD ["apache2-foreground"]
-# CMD [ "sudo sh", "-c", "apache2-foreground" ]
+CMD [ "sudo sh", "-c", "apache2-foreground" ]
 
 
 
