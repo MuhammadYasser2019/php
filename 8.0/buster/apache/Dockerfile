@@ -278,7 +278,7 @@ COPY apache2-foreground /usr/local/bin/
 WORKDIR /var/www/html
 
 EXPOSE 80
-
+RUN echo exit 0 > /usr/sbin/policy-rc.d
 RUN \
 	apt update && \
 	apt install sudo &&\
