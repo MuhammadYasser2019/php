@@ -283,7 +283,7 @@ RUN chown -R 1001:0 /etc/apache2/ && chmod -R g+rwX /etc/apache2/
 # RUN chown -R 1001:0 /var/lib/apt/lists/*
 RUN chown -R 1001:0 /var/lib/apache2 && chmod -R g+rwX /var/lib/apache2
 RUN chown -R 1001:0 /var/lib/apt/lists/* && chmod -R g+rwX /var/lib/apt/lists/*
-RUN chown  1001:0 /var/lib/apt/lists/lock
+# RUN chown  1001:0 /var/lib/apt/lists/lock
 
 
 
