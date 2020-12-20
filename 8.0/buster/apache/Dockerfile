@@ -289,16 +289,16 @@ RUN echo exit 0 > /usr/sbin/policy-rc.d
 RUN \
 	apt update && \
 	apt install sudo &&\
-    # sed -i /etc/sudoers -re 's/^%sudo.*/%sudo ALL=(ALL:ALL) NOPASSWD: ALL/g' && \
-    # sed -i /etc/sudoers -re 's/^root.*/root ALL=(ALL:ALL) NOPASSWD: ALL/g' && \
-    # sed -i /etc/sudoers -re 's/^#includedir.*/## **Removed the include directive** ##"/g' && \
-    # echo "default ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
-	echo "default ALL=(root) NOPASSWD: /usr/local/bin/apache2-foreground" >> /etc/sudoers && \
-	echo "default ALL=(root) NOPASSWD: /usr/sbin/apt install" >> /etc/sudoers && \
-	echo "default ALL=(root) NOPASSWD: /usr/sbin/apt-mark" >> /etc/sudoers && \
-	echo "default ALL=(root) NOPASSWD: /usr/sbin/apt-get purge" >> /etc/sudoers && \
+    sed -i /etc/sudoers -re 's/^%sudo.*/%sudo ALL=(ALL:ALL) NOPASSWD: ALL/g' && \
+    sed -i /etc/sudoers -re 's/^root.*/root ALL=(ALL:ALL) NOPASSWD: ALL/g' && \
+    sed -i /etc/sudoers -re 's/^#includedir.*/## **Removed the include directive** ##"/g' && \
+    echo "default ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers && \
+	echo "default ALL=(root) NOPASSWD: /usr/local/bin/apache2-foreground" >> /etc/sudoers
 	# echo "default ALL=(root) NOPASSWD: /usr/sbin/apt install" >> /etc/sudoers && \
-	echo "default ALL=(root) NOPASSWD: /usr/sbin/apt update" >> /etc/sudoers 
+	# echo "default ALL=(root) NOPASSWD: /usr/sbin/apt-mark" >> /etc/sudoers && \
+	# echo "default ALL=(root) NOPASSWD: /usr/sbin/apt-get purge" >> /etc/sudoers && \
+	# echo "default ALL=(root) NOPASSWD: /usr/sbin/apt install" >> /etc/sudoers && \
+	# echo "default ALL=(root) NOPASSWD: /usr/sbin/apt update" >> /etc/sudoers 
 
 
 
